@@ -18,12 +18,12 @@ jobs:
             - name: Export model to onnx
               run: |
                 optimum-cli export onnx \
-                 -m ab-ai/PII-Guardian-Phi3-Mini-QLORA \
+                 -m h2oai/deberta_finetuned_pii \
                  --task text-classification \
-                 PII-Guardian-Phi3-Mini-QLORA
+                 h2oai_deberta_finetuned_pii
             
             - name: Upload locally
               uses: actions/upload-artifact@v4
               with:
-                name: PII-Guardian-Phi3-Mini-QLORA.onnx
-                path: PII-Guardian-Phi3-Mini-QLORA
+                name: h2oai_deberta_finetuned_pii.onnx
+                path: h2oai_deberta_finetuned_pii
