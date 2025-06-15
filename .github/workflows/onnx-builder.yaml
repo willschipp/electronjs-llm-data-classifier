@@ -1,0 +1,28 @@
+name: onnx converter
+
+#  h2oai/deberta_finetuned_pii
+
+on:
+    workflow_dispatch:
+
+jobs:
+    export_onnx:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Install dependencies
+              run: | 
+                pip install optimum[onnxruntime]
+                pip install transformers
+            
+            - name: Export model to onnx
+              run: |
+                optimum-cli export onnx \
+                 --model ab-ai/PII-Guardian-Phi3-Mini-QLORA
+                 PII-Guardian-Phi3-Mini-QLORA
+            
+            - name: Upload locally
+              uses: actions/upload-artifact@v4
+              with:
+                name: PII-Guardian-Phi3-Mini-QLORA.onnx
+                path: PII-Guardian-Phi3-Mini-QLORA
