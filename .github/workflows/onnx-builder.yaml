@@ -18,7 +18,9 @@ jobs:
             - name: Export model to onnx
               run: |
                 optimum-cli export onnx \
-                 --model ab-ai/PII-Guardian-Phi3-Mini-QLORA
+                 -m ab-ai/PII-Guardian-Phi3-Mini-QLORA
+                 --dtype fp16
+                 --task text-classification
                  PII-Guardian-Phi3-Mini-QLORA
             
             - name: Upload locally
