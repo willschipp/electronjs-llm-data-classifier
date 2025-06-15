@@ -19,7 +19,6 @@ jobs:
               run: |
                 optimum-cli export onnx \
                  -m ab-ai/PII-Guardian-Phi3-Mini-QLORA \
-                 --dtype fp16 \
                  --task text-classification \
                  PII-Guardian-Phi3-Mini-QLORA
             
