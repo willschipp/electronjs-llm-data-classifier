@@ -1,15 +1,9 @@
-import path from 'path';
-// import { pipeline, env } from '@huggingface/transformers';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const { path } = require('path');
+const { addon: ov } = require('openvino-node');
 
 //models
 //image-to-text Xenova/trocr-small-printed
 //document-question-answering Xenova/donut-base-finetuned-docvqa
-
 
 class ClassificationPipeline {
 // NOTE: Replace this with your own task and model
@@ -34,7 +28,19 @@ class ClassificationPipeline {
 }
 
 // The run function is used by the `transformers:run` event handler.
-export async function run(event, text) {
+// export async function run(event, text) {
+async function run(event, text) {
     const classifier = await ClassificationPipeline.getInstance();
     return await classifier(text);
+}
+
+// export async function detect(event) {
+async function detect(event) {
+    const core = new ov.Core();
+    return core.getAvailableDevices();
+}
+
+module.exports = {
+    run,
+    detect
 }

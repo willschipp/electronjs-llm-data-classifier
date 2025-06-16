@@ -1,9 +1,12 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
+// const { app, BrowserWindow, ipcMain } = require('electron');
 import path from 'path';
+// const { path } = require('path');
 import { fileURLToPath } from 'url';
+// const { fileURLToPath } = require('url');
 
 // const { run } = require('./ai/main.js');
-import { run } from './ai/main.js';
+import { run, detect } from './ai/main.cjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +31,7 @@ function createWindow () {
 
 app.whenReady().then(() => {
     ipcMain.handle('transformers:run',run);//register run
+    ipcMain.handle('openvino:detect',detect);
     //create the window
     createWindow()
 
