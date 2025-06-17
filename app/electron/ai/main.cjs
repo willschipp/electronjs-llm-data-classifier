@@ -9,7 +9,8 @@ class ClassificationPipeline {
 // NOTE: Replace this with your own task and model
     static task = 'text-classification';
     // static model = 'Xenova/distilbert-base-uncased-finetuned-sst-2-english';
-    static model = 'distilbert-base-uncased-finetuned-sst-2-english';
+    // static model = 'distilbert-base-uncased-finetuned-sst-2-english';
+    static model = 'onnx-community/piiranha-v1-detect-personal-information-ONNX';
     // static model = 'JasperLS/deberta-v3-base-pii-identifier-v2';
     static instance = null;
 

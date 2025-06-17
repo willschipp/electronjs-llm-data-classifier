@@ -18,8 +18,8 @@ function RawText() {
 
     return (
         <Card>
-            <TextArea value={entry} onChange={handleChange}/>
-            <Button text="Check" onClick={handleText}/>
+            <TextArea value={entry} onChange={handleChange} size="large" fill="true"/>
+            {/* <Button text="Check" onClick={handleText}/> */}
             <div id="output"></div>
         </Card>
     )

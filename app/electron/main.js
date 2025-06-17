@@ -25,7 +25,7 @@ function createWindow () {
         }
     });
 
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'),{hash:'home'});
     mainWindow.webContents.openDevTools(); // this is optional thing, use it if you see a devTool window opened
 }
 
