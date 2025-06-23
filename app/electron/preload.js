@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, webUtils } = require('electron');
 // import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -7,5 +7,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
         on: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(event, ...args))
     },    
     run: (text) => ipcRenderer.invoke('transformers:run',text),
-    detect: () => ipcRenderer.invoke('openvino:detect')
+    detect: () => ipcRenderer.invoke('openvino:detect'),
+    parser: (path) => ipcRenderer.invoke('document:parser',path),
+    path: (file) => {
+        const path = webUtils.getPathForFile(file);
+        return path;
+    }
 });

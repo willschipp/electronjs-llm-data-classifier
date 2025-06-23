@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FileInput, Button, Card, Spinner } from  "@blueprintjs/core";
-import pdfToText from 'react-pdfToText';
+// import pdfToText from 'react-pdfToText';
 
 
 function Upload() {
@@ -15,18 +15,18 @@ function Upload() {
         console.log("file upload invoked");
         setLoading(true);
         //read
-        const file = event.target.files[0];
-        const extractedText = await pdfToText(file);
-        setText(extractedText);
-        //invoke the model to classify this
-        console.log("invoking classification...");
-        // const result = await 
-        window.electronAPI.run(extractedText)
+        const file = e.target.files[0];
+        const path = window.electronAPI.path(file);
+        console.log(path);
+
+        window.electronAPI.parser(String(path))
             .then((result) => {
-                setLoading(false);
-                setClassification(result);
+                console.log('parsed to text');
+                return window.electronAPI.run(result);
+            }).then((determinedClassification) => {
+                setLoading(false); //stop loading
+                setClassification(determinedClassification);
             });
-        // setClassification(result);
     }
 
     return (

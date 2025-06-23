@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 
 // const { run } = require('./ai/main.js');
 import { run, detect } from './ai/main.cjs';
+import parser from './parser/main.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +33,7 @@ function createWindow () {
 app.whenReady().then(() => {
     ipcMain.handle('transformers:run',run);//register run
     ipcMain.handle('openvino:detect',detect);
+    ipcMain.handle('document:parser',parser);
     //create the window
     createWindow()
 
