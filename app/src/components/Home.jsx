@@ -4,7 +4,7 @@ import { Card } from  "@blueprintjs/core";
 function Home() {
 
     const fetchData = async () => {
-        console.log("checking openvino...");
+        // console.log("checking openvino...");
         //interact with openvino
         const result = await window.electronAPI.detect(); //nothing to pass
         const output = document.getElementById("output");

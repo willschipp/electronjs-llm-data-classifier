@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
         on: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(event, ...args))
     },    
     run: (text) => ipcRenderer.invoke('transformers:run',text),
+    npuRunner: (text) => ipcRenderer.invoke('openvino:npuRunner',text),
     detect: () => ipcRenderer.invoke('openvino:detect'),
     parser: (path) => ipcRenderer.invoke('document:parser',path),
     path: (file) => {
