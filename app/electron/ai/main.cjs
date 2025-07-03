@@ -1,20 +1,9 @@
 const path = require('path');
 const { addon: ov } = require('openvino-node');
+//transformers
+const { AutoTokenizer } = require('@xenova/transformers');
 
-// const { create, globals } = require('webgpu');
-// const { fileURLToPath} = require('url');
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-//models
-//image-to-text Xenova/trocr-small-printed
-//document-question-answering Xenova/donut-base-finetuned-docvqa
-
-// Object.assign(globalThis,global);
-// const navigator = { gpu: create([]) }
-
-
+const model_name = 'piiranha-v1-detect-personal-information-ONNX';
 
 class ClassificationPipeline {
 // NOTE: Replace this with your own task and model
@@ -35,7 +24,7 @@ class ClassificationPipeline {
             env.localModelPath = path.join(__dirname,'./models');
             // env.localModelPath = './models';
             env.allowRemoteModels = false;
-            this.instance = pipeline(this.task, this.model, { progress_callback, dtype:'fp16', device:'cpu'});
+            this.instance = pipeline(this.task, this.model, { progress_callback, dtype:'fp16', device:'cpu'}); //CPU device
         }
         //return
         return this.instance;
@@ -50,7 +39,11 @@ function processPiiranhaResults(results) {
     let found = []
     results.forEach(result => {
         if (keywords.some(keyword => result['label'].includes(keyword))) {
-            found.push(result['label'])
+            console.log(result); //let's see what's in it
+            if (result['score'] > 0.00001) {
+                //it's good... add
+                found.push(result['label']);
+            }//end if
         } //end if
     });
     //return
@@ -64,17 +57,61 @@ async function run(event, text) {
     const results = await classifier(text);
     //process the results
     const processResults = processPiiranhaResults(results)
+    //return the results
     return processResults;
 }
 
 async function npuRunner(event,text) {
     //use the npu to load up the model
     const core = new ov.Core();
-    const modelPath = path.join(__dirname,'./models/piiranha-v1-detect-personal-information-ONNX');
+    const modelPath = path.join(__dirname,'./models/' + model_name);
     console.log(modelPath);
     const model = await core.readModel(modelPath);
     const device = "AUTO";
     const compiledModel = await core.compileModel(model, device);
+
+    // 2. Tokenize input
+    // Replace MODEL_NAME with your real model's tokenizer identifier
+    // const tokenizer = await AutoTokenizer.from_pretrained('piiranha-v1-detect-personal-information-ONNX'); // or your specific model
+    // // Adjust max_length as required
+    // const encoded = await tokenizer(text, { 
+    //     padding: true, 
+    //     truncation: true, 
+    //     max_length: 128, 
+    //     return_tensors: 'np'
+    // });
+
+    // return null;
+
+    // // 3. Prepare input tensor(s)
+    // // Get input names as expected by your model (may differ)
+    // const inputs = {};
+    // inputs['input_ids'] = new ov.Tensor('i32', encoded.input_ids.shape, encoded.input_ids.data);
+    // if (encoded.attention_mask) {
+    //     inputs['attention_mask'] = new ov.Tensor('i32', encoded.attention_mask.shape, encoded.attention_mask.data);
+    // }
+
+    // // 4. Run inference
+    // const inferenceResult = await compiledModel.infer(inputs);
+
+    // // 5. Postprocess the output
+    // // Get first output tensor (check the output name)
+    // const outputKey = compiledModel.outputNames[0];
+    // const logits = inferenceResult[outputKey].data;
+
+    // // For classification: softmax + argmax.
+    // const expScores = logits.map(Math.exp);
+    // const sumExp = expScores.reduce((a, b) => a + b, 0);
+    // const probabilities = expScores.map(e => e / sumExp);
+    // const predictedClass = probabilities.indexOf(Math.max(...probabilities));
+    // const confidence = Math.max(...probabilities);
+
+    // // 6. Return results
+    // return {
+    //     predictedClass,   // integer class index, map to class label as needed
+    //     confidence,       // confidence score
+    //     probabilities     // all class probabilities
+    // };
 
 }
 

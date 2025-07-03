@@ -3,3 +3,5 @@ package-lock.json
 *.onnx
 *.onnx_data
 virtualenv
+*.bin
+*.safetensors
