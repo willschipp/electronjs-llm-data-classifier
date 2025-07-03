@@ -33,8 +33,10 @@ function Upload() {
     }
 
     return (
-        <Card>
-            <FileInput disabled={false} fill={true} text="Choose file..." onInputChange={handleFileSelect}/>  
+        <Card style={{ flex: '1 1 auto', overflowY: 'auto' }}>
+            <p>
+                <FileInput disabled={false} fill={true} text="Choose file..." onInputChange={handleFileSelect}/>  
+            </p>
             {loading && (<Spinner/>)}
             {classification && (
                 <HTMLTable>

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useNavigate } from 'react-router-dom'; //routing
 
 import { Alignment, Navbar, Button } from  "@blueprintjs/core";
@@ -16,7 +14,13 @@ function Navigation() {
         navigate('/upload');
     }
 
+    const handleClassificationNavigation = (e) => {
+        navigate('/classifications');
+    }
 
+    const handleEnterTextNavigation = (e) => {
+        navigate('/raw');
+    }    
 
     return (
         <Navbar>
@@ -25,6 +29,8 @@ function Navigation() {
                 <Navbar.Divider />
                 <Button className="bp5-minimal" icon="home" id="homeButton" text="Home" onClick={handleHomeNavigation}/>
                 <Button className="bp5-minimal" icon="document" id="uploadButton" text="Upload" onClick={handleUploadNavigation}/>
+                <Button className="bp5-minimal" icon="search-text" id="textButton" text="Enter Text" onClick={handleEnterTextNavigation}/>
+                <Button className="bp5-minimal" icon="label" id="classificationButton" text="Classifications" onClick={handleClassificationNavigation}/>
             </Navbar.Group>
         </Navbar>
     )

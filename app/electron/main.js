@@ -16,8 +16,9 @@ let mainWindow;
 
 function createWindow () {
     mainWindow = new BrowserWindow({
-        width: 1200,
-        height: 800,
+        width: 800,
+        height: 550,
+        autoHideMenuBar: true, 
         webPreferences: {
             preload: path.join(__dirname, '../electron/preload.js'),
             nodeIntegration: false,
@@ -27,7 +28,7 @@ function createWindow () {
     });
 
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'),{hash:'home'});
-    mainWindow.webContents.openDevTools(); // this is optional thing, use it if you see a devTool window opened
+    // mainWindow.webContents.openDevTools(); // this is optional thing, use it if you see a devTool window opened
 }
 
 app.whenReady().then(() => {

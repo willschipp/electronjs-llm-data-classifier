@@ -1,9 +1,5 @@
 const path = require('path');
 const { addon: ov } = require('openvino-node');
-//transformers
-const { AutoTokenizer } = require('@xenova/transformers');
-
-const model_name = 'piiranha-v1-detect-personal-information-ONNX';
 
 class ClassificationPipeline {
 // NOTE: Replace this with your own task and model

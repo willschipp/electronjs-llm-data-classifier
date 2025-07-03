@@ -4,11 +4,15 @@ import { Card } from  "@blueprintjs/core";
 function Home() {
 
     const fetchData = async () => {
-        // console.log("checking openvino...");
+        console.log("checking openvino...");
         //interact with openvino
-        const result = await window.electronAPI.detect(); //nothing to pass
-        const output = document.getElementById("output");
-        output.innerText = result;
+        try {
+            const result = await window.electronAPI.detect(); //nothing to pass
+            const output = document.getElementById("output");
+            output.innerText = result;
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     useEffect(() => {
@@ -16,8 +20,8 @@ function Home() {
     },[]);
 
     return (
-        <Card>
-            <p>Audit App</p>
+        <Card style={{ flex: '1 1 auto', overflowY: 'auto' }}>
+            <p>Data Classification Helper</p>
             <div id="output"></div>
         </Card>
     )
