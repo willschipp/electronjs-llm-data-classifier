@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 // const { fileURLToPath } = require('url');
 
 // const { run } = require('./ai/main.js');
-import { run, detect, npuRunner } from './ai/main.cjs';
+import { run, detect, npuRunner, classifications } from './ai/main.cjs';
 import parser from './parser/main.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,6 +36,7 @@ app.whenReady().then(() => {
     ipcMain.handle('openvino:detect',detect);
     ipcMain.handle('openvino:npuRunner',npuRunner);
     ipcMain.handle('document:parser',parser);
+    ipcMain.handle('document:classification',classifications);
     //create the window
     createWindow()
 

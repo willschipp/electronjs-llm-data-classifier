@@ -13,5 +13,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     path: (file) => {
         const path = webUtils.getPathForFile(file);
         return path;
-    }
+    },
+    classifications: () => ipcRenderer.invoke('document:classification'),
 });

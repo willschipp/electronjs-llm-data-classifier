@@ -18,7 +18,6 @@ function RawText() {
         setLoading(false);
         const output = document.getElementById('output');
         output.innerText = JSON.stringify(result,null,2);
-        
     }
 
     return (

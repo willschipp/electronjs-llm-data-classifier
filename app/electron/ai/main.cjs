@@ -1,6 +1,8 @@
 const path = require('path');
 const { addon: ov } = require('openvino-node');
 
+const { classifyResults, processResults, getClassifications } = require('./classifier.cjs');
+
 class ClassificationPipeline {
 // NOTE: Replace this with your own task and model
     static task = 'text-classification';
@@ -27,24 +29,6 @@ class ClassificationPipeline {
     }    
 }
 
-function processPiiranhaResults(results) {
-    //the results are a json array of objects
-    //each object has a label
-    //loop and check for if there are any instance of the key words
-    let keywords = ["ACCOUNTNUM","BUILDINGNUM","CITY","CREDITCARDNUMBER","DATEOFBIRTH","DRIVERLICENSENUM","EMAIL","GIVENNAME","IDCARDNUM","PASSWORD","SOCIALNUM","STREET","SURNAME","TAXNUM","TELEPHONENUM","USERNAME","ZIPCODE"]
-    let found = []
-    results.forEach(result => {
-        if (keywords.some(keyword => result['label'].includes(keyword))) {
-            console.log(result); //let's see what's in it
-            if (result['score'] > 0.00001) {
-                //it's good... add
-                found.push(result['label']);
-            }//end if
-        } //end if
-    });
-    //return
-    return found
-}
 
 // The run function is used by the `transformers:run` event handler.
 // export async function run(event, text) {
@@ -52,9 +36,15 @@ async function run(event, text) {
     const classifier = await ClassificationPipeline.getInstance();
     const results = await classifier(text);
     //process the results
-    const processResults = processPiiranhaResults(results)
-    //return the results
-    return processResults;
+    const processedResults = processResults(results)
+    //process the results
+    const classification = classifyResults(processedResults);
+    // return processedResults;
+    return classification;
+}
+
+async function classifications(event) {
+    return getClassifications();
 }
 
 async function npuRunner(event,text) {
@@ -120,5 +110,6 @@ async function detect(event) {
 module.exports = {
     run,
     detect,
-    npuRunner
+    npuRunner,
+    classifications
 }
