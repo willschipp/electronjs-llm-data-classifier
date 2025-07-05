@@ -22,7 +22,7 @@ function Home() {
     return (
         <Card style={{ flex: '1 1 auto', overflowY: 'auto' }}>
             <p>Data Classification Helper</p>
-            <div id="output"></div>
+            <p>Devices Available: <span id="output"></span></p>
         </Card>
     )
 }
