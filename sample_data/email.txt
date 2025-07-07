@@ -1,0 +1,13 @@
+Hello,
+
+As requested, below are my updated personal details for your records:
+
+Name: Jane Doe
+Date of Birth: 03/15/1986
+Email Address: jane.doe@example.com
+Social Security Number: 123-45-6789
+
+Please let me know if any additional documentation is required.
+
+Thank you,
+Jane Doe

@@ -1,6 +1,7 @@
 ## models
 
 `onnx-community/piiranha-v1-detect-personal-information-ONNX`
+`onnx-community/Llama-3.2-3B-Instruct`
 
 ### Piiranha model
 
@@ -21,3 +22,4 @@ TAXNUM
 TELEPHONENUM	
 USERNAME	
 ZIPCODE	
+

@@ -1,7 +1,7 @@
 const path = require('path');
 const { addon: ov } = require('openvino-node');
 
-const { classifyResults, processResults, getClassifications } = require('./classifier.cjs');
+const { classifyResults, processResults, getClassifications, llmValidation } = require('./classifier.cjs');
 
 class ClassificationPipeline {
 // NOTE: Replace this with your own task and model
@@ -29,16 +29,23 @@ class ClassificationPipeline {
     }    
 }
 
-
 // The run function is used by the `transformers:run` event handler.
 // export async function run(event, text) {
-async function run(event, text) {
+async function run(event, text, use_llm = false) {
     const classifier = await ClassificationPipeline.getInstance();
     const results = await classifier(text);
     //process the results
     const processedResults = processResults(results)
-    //process the results
-    const classification = classifyResults(processedResults);
+    //try the LLM approach
+    let classification = "";
+    if (use_llm) {
+        console.log("using LLM...")
+        classification = llmValidation(processedResults);
+    } else {
+        //process the results
+        console.log("returning simple results")
+        classification = classifyResults(processedResults);
+    } //end if
     // return processedResults;
     return classification;
 }
